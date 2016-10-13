@@ -101,11 +101,16 @@ def add_to_cart(melon_id):
     # - flash a success message
     # - redirect the user to the cart page
 
-    session["cart"] = {}
+    if "cart" not in session:
+        session["cart"] = {}
+    
+    session["cart"][melon_id] = session["cart"].get(melon_id, 0) + 1
+    print session["cart"]
 
-    session["cart"].default(melon_name, 1)
+    # total_cart = (session["cart"].items() (This is broken, trying to create a variable to print in flash msg.)
 
-    return "Oops! This needs to be implemented!"
+    flash("We've updated your shopping cart.")
+    return redirect("/cart")
 
 
 @app.route("/login", methods=["GET"])
